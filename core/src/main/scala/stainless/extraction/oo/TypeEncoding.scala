@@ -1047,7 +1047,7 @@ trait TypeEncoding extends inox.ast.SymbolTransformer { self =>
 
     val newSymbols = NoSymbols
       .withFunctions(
-        Seq(subtypeFunction, instanceFunction) ++ 
+        Seq(subtypeFunction, instanceFunction) ++
         unapplyFunctions ++
         fieldFunctions ++
         unwrapFunctions ++
@@ -1089,8 +1089,8 @@ trait TypeEncoding extends inox.ast.SymbolTransformer { self =>
       } (e)
     }
 
-    val finalSymbols = NoSymbols
-      .withFunctions(newSymbols.functions.values.toSeq.map(fd => fd.copy(fullBody = inlineChecks(fd.fullBody))))
+    val finalSymbols = NoSymbols                        // Workaround https://github.com/epfl-lara/stainless/issues/38
+      .withFunctions(newSymbols.functions.values.toSeq) // .map(fd => fd.copy(fullBody = inlineChecks(fd.fullBody))))
       .withADTs(newSymbols.adts.values.toSeq)
 
     for (fd <- finalSymbols.functions.values) {
